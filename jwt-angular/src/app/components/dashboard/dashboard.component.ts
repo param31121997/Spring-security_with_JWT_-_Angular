@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { JwtService } from 'src/app/service/jwt.service';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,22 +9,17 @@ import { JwtService } from 'src/app/service/jwt.service';
 export class DashboardComponent {
 
 
-  message: string;
+  username = '';
 
-  constructor(
-    private service: JwtService
-  ) { }
-
+  constructor(private authService: AuthService) {
+    const token = this.authService.getToken();
+    const tokenPayload = this.authService.jwtHelper.decodeToken(token);
+    this.username = tokenPayload.sub;
+  }
   ngOnInit() {
-    this.hello();
   }
 
-  hello() {
-    this.service.hello().subscribe(
-      (response) => {
-        console.log(response);
-        this.message = response.message;
-      }
-    )
+  logout() {
+    this.authService.logout();
   }
 }

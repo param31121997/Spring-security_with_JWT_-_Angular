@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { JwtService } from 'src/app/service/jwt.service';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,7 @@ export class RegisterComponent implements OnInit {
   error: any;
 
   constructor(private formBuilder: FormBuilder,
-    private service: JwtService,
+    private authService: AuthService, private router: Router
   ) { 
 
   }
@@ -33,19 +34,13 @@ export class RegisterComponent implements OnInit {
   submitForm(): void {
     if (this.registerForm.valid) {
       // Form is valid, handle form submission here
-      this.service.register(this.registerForm.value).subscribe(
-        (response) => {
-          console.log(response)
-          if (response.id != null) {
-            alert("Hello " + response.name);
-          }
-        },(error) => {                              //Error callback
-         console.log(error)
-          this.error = error.error;
-          //throw error;   //You can also throw the error to a global error handler
-        }
-      )
-    } else {
+      this.authService.register(this.registerForm.value).subscribe(() => {
+        this.router.navigate(['/login']);
+      }, error => {
+        this.error = error.error;
+      });
+    }
+   else {
       // Form is invalid, mark all fields as touched to display error messages
       this.registerForm.markAllAsTouched();
     }
