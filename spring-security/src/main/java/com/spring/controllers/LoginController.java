@@ -23,6 +23,7 @@ import com.spring.services.jwt.CustomerServiceImpl;
 import com.spring.utils.JwtUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,14 +64,18 @@ public class LoginController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         String jwtToken = jwtUtils.generateToken(userDetails.getUsername());
-
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
+        List<String> roles = new ArrayList<>();
+        if(userDetails.getUsername().equals("ramwankhede1997@gmail.com")) {
+        	roles.add("ROLE_ADMIN");
+        }
+        else {
+        	 roles = userDetails.getAuthorities().stream()
+                     .map(item -> item.getAuthority())
+                     .collect(Collectors.toList());
+        }
         LoginResponse response = new LoginResponse(userDetails.getUsername(), roles, jwtToken);
 
         return ResponseEntity.ok(response);
     }
-
+    
 }

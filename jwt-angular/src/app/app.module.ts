@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -13,6 +13,9 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './service/auth.service';
 import { HomeComponent } from './components/home/home.component';
 
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './components/forget-password/forgot-password.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,13 +23,16 @@ import { HomeComponent } from './components/home/home.component';
     LoginComponent,
     DashboardComponent,
     AdminComponent,
-    HomeComponent
+    HomeComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

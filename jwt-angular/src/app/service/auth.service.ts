@@ -32,4 +32,13 @@ export class AuthService {
   getToken() {
     return localStorage.getItem('jwtToken');
   }
+
+  forgotPassword(username: string) {
+    return this.http.post('http://localhost:8080/login/forgot-password', { username });
+  }
+
+
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post('http://localhost:8080/login/reset-password', { token, newPassword });
+  }
 }
