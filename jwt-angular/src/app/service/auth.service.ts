@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   private loginUrl = 'http://localhost:8080/login';
   private registerUrl = 'http://localhost:8080/signup';
+  username = new BehaviorSubject<string>('');
+  role = new BehaviorSubject<string>('');
   constructor(private http: HttpClient, private router: Router, public jwtHelper: JwtHelperService) { }
 
   login(credentials: any) {

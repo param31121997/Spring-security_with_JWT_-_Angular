@@ -32,11 +32,13 @@ export class LoginComponent implements OnInit {
           console.log('line number 32')
           console.log(response.roles[0])
           localStorage.setItem('jwtToken', response.jwtToken);
-          if(response.roles[0] === "ROLE_ADMIN"){
+          // if(response.roles[0] === "ROLE_ADMIN"){
+            this.authService.username.next(response.name);
+            this.authService.role.next(response.roles[0]);
             this.router.navigate(['/admin']);
-          }else{
-            this.router.navigate(['/']);
-          }
+          // }else{
+          //   this.router.navigate(['/admin']);
+          // }
         }
       },(error) =>{
         console.log(error)

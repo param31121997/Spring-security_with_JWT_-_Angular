@@ -1,3 +1,12 @@
-<h2>Admin Page</h2>
-<p>Welcome to the admin page</p>
-<button (click)="logout()">Logout</button>
+<h2 class="profile-title">Welcome {{role}} !</h2>
+<div class="card">
+  <img src="../../../assets/admin.jpeg" alt="John" style="width:100%">
+  <h1>{{username}}</h1>
+  <div style="margin: 24px 0;">
+    <a href="#"><i class="fa fa-dribbble"></i></a> 
+    <a href="#"><i class="fa fa-twitter"></i></a>  
+    <a href="#"><i class="fa fa-linkedin"></i></a>  
+    <a href="#"><i class="fa fa-facebook"></i></a> 
+  </div>
+  <p><button (click)="logout()">Logout</button></p>
+</div>

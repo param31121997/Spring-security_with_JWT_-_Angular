@@ -7,7 +7,21 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
-  constructor(private authService: AuthService) { }
+  username = '';
+  role=''
+  constructor(private authService: AuthService) {
+    this.authService.username.subscribe(res =>{
+      this.username = res;
+    })
+    this.authService.role.subscribe(res =>{
+      if(res === "ROLE_ADMIN"){
+        this.role = "Admin"
+      }
+      else{
+        this.role = "User";
+      }
+    })
+  }
 
   logout() {
     this.authService.logout();

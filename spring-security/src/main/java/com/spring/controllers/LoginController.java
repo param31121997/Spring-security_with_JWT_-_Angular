@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.dto.LoginRequest;
 import com.spring.dto.LoginResponse;
+import com.spring.entities.Customer;
+import com.spring.repository.CustomerRepository;
 import com.spring.services.jwt.CustomerServiceImpl;
 import com.spring.utils.JwtUtil;
 
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,6 +43,9 @@ public class LoginController {
     private CustomerServiceImpl customerService;
 
     private final JwtUtil jwtUtils;
+    
+    @Autowired
+    private CustomerRepository customerRepository;
 
 
     @Autowired
@@ -53,6 +59,7 @@ public class LoginController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws IOException {
     	Authentication authentication;
         try {
+        	
         	authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         }catch (AuthenticationException exception) {
         	 Map<String, Object> map = new HashMap<>();
@@ -73,7 +80,8 @@ public class LoginController {
                      .map(item -> item.getAuthority())
                      .collect(Collectors.toList());
         }
-        LoginResponse response = new LoginResponse(userDetails.getUsername(), roles, jwtToken);
+         Customer customer =  customerRepository.findByEmail(userDetails.getUsername());
+        LoginResponse response = new LoginResponse(userDetails.getUsername(), customer.getName(), roles, jwtToken);
 
         return ResponseEntity.ok(response);
     }
