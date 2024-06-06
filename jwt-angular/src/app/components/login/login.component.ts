@@ -11,6 +11,7 @@ import { JwtService } from 'src/app/service/jwt.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup | undefined;
+  error: any;
 
   constructor(
     private service: JwtService,
@@ -20,8 +21,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', Validators.required, Validators.email],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     })
   }
 
@@ -35,6 +36,9 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('jwt', jwtToken);
           this.router.navigateByUrl("/dashboard");
         }
+      },(error) =>{
+        console.log(error)
+        this.error = "Incorrect Email id or Password";
       }
     )
   }

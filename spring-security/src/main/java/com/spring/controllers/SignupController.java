@@ -30,7 +30,7 @@ public class SignupController {
         if (createdCustomer != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCustomer);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to create customer");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The email address you entered is already registered. Please try logging in or use a different email address.");
         }
     }
 
